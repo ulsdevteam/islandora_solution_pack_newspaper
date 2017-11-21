@@ -94,8 +94,10 @@ WHERE {
   !optionals
   !filters
 }
-ORDER BY ?sequence
+ORDER BY ?issued
 EOQ;
+
+// previously ended with -- ORDER BY ?sequence
 
   // XXX: Can't really use the fully featured query_filter and query_statements
   // hook as it will return some things we don't want. Perhaps change the return
