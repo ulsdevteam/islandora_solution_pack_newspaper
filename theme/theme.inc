@@ -74,14 +74,14 @@ function template_preprocess_islandora_newspaper(array &$variables) {
         foreach ($issues as $issue) {
           $tabs[$year][$month][$day][] = array(
             '#theme' => 'link',
-            '#prefix' => '<div>',
+            '#prefix' => '<div class="islandora-newspaper-content-thumb-div">',
             '#suffix' => '</div>',
             '#text' => t("@month @day, @year", array(
                 '@year' => $year,
                 '@month' => $month_name,
                 '@day' => $day,
                 )),
-            '#path' => "islandora/object/{$issue['pid']}",
+            '#path' => "islandora/object/{$issue['pid']}/viewer",
             '#options' => array(
               'attributes' => array(),
               'html' => FALSE,
@@ -196,7 +196,7 @@ function theme_islandora_newspaper_issue_navigator(array $variables) {
     $previous_issue = $issues[$index - 1];
     $links[] = array(
       'title' => t('Prev'),
-      'href' => url("islandora/object/{$previous_issue}", array('absolute' => TRUE)),
+      'href' => url("islandora/object/{$previous_issue}/viewer", array('absolute' => TRUE)),
     );
   }
   if (count($issues) > 1) {
@@ -209,13 +209,13 @@ function theme_islandora_newspaper_issue_navigator(array $variables) {
     $next_issue = $issues[$index + 1];
     $links[] = array(
       'title' => t('Next'),
-      'href' => url("islandora/object/{$next_issue}", array('absolute' => TRUE)),
+      'href' => url("islandora/object/{$next_issue}/viewer", array('absolute' => TRUE)),
     );
   }
   if ($newspaper) {
     $links[] = array(
       'title' => t('All Issues'),
-      'href' => url("islandora/object/{$newspaper->id}", array('absolute' => TRUE)),
+      'href' => url("islandora/object/{$newspaper->id}/viewer", array('absolute' => TRUE)),
     );
   }
   $attributes = array('class' => array('links', 'inline'));
