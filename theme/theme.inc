@@ -72,7 +72,7 @@ function template_preprocess_islandora_newspaper(array &$variables) {
         '#title' => $month_name,
         '#type' => 'fieldset',
         '#attributes' => array(
-          'class' => array('collapsible', 'collapsed', 'month'),
+          'class' => array('collapsible', 'month'),
         ),
       );
       if (!$first_pane_done) {
