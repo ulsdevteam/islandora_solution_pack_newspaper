@@ -25,6 +25,8 @@ function template_preprocess_islandora_newspaper(array &$variables) {
   $output = array(
     'controls' => array(
       '#theme' => 'links',
+      '#prefix' => '<span id="hidden-pid" style="display:none">' .
+          $object->id . '</span>',
       '#attributes' => array(
         'class' => array('links', 'inline'),
       ),
@@ -54,9 +56,12 @@ function template_preprocess_islandora_newspaper(array &$variables) {
     ),
   );
   $tabs = &$output['tabs'];
+  $first_pane_done = FALSE;
+  ksort($grouped_issues);
   foreach ($grouped_issues as $year => $months) {
     $tabs[$year] = array(
       '#title' => $year,
+      '#id' => 'y_' . $year,
       '#type' => 'fieldset',
     );
     foreach ($months as $month => $days) {
@@ -70,30 +75,32 @@ function template_preprocess_islandora_newspaper(array &$variables) {
           'class' => array('collapsible', 'collapsed', 'month'),
         ),
       );
-      foreach ($days as $day => $issues) {
-        foreach ($issues as $issue) {
-          $tabs[$year][$month][$day][] = array(
-            '#theme' => 'link',
-            '#prefix' => '<div class="islandora-newspaper-content-thumb-div">',
-            '#suffix' => '</div>',
-            '#text' => t("@month @day, @year", array(
-                '@year' => $year,
-                '@month' => $month_name,
-                '@day' => $day,
-                )),
-            '#path' => "islandora/object/{$issue['pid']}/viewer",
-            '#options' => array(
-              'attributes' => array(),
-              'html' => FALSE,
-            ),
-          );
+      if (!$first_pane_done) {
+        foreach ($days as $day => $issues) {
+          foreach ($issues as $issue) {
+            $tabs[$year][$month][$day][] = array(
+              '#theme' => 'link',
+              '#prefix' => '<div class="islandora-newspaper-content-thumb-div">',
+              '#suffix' => '</div>',
+              '#text' => t("@month @day, @year", array(
+                  '@year' => $year,
+                  '@month' => $month_name,
+                  '@day' => $day,
+                  )),
+              '#path' => "islandora/object/{$issue['pid']}/viewer",
+              '#options' => array(
+                'attributes' => array(),
+                'html' => FALSE,
+              ),
+            );
+          }
         }
+        $first_pane_done = TRUE;
       }
       ksort($tabs[$year][$month]);
     }
     ksort($tabs[$year]);
   }
-  ksort($tabs);
 
   $variables['islandora_content_render_array'] = $output;
   $variables['parent_collections'] = islandora_get_parents_from_rels_ext($object);
