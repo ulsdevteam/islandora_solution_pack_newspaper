@@ -22,11 +22,13 @@ function template_preprocess_islandora_newspaper(array &$variables) {
   $object = $variables['object'];
   $issues = islandora_newspaper_get_issues($object);
   $grouped_issues = islandora_newspaper_group_issues($issues);
+  $hidden_pid = (variable_get('islandora_newspaper_use_ajax_loader', 0) > 0 ?
+      '<span id="hidden-pid" style="display:none">' .
+          $object->id . '</span>' : '');
   $output = array(
     'controls' => array(
       '#theme' => 'links',
-      '#prefix' => '<span id="hidden-pid" style="display:none">' .
-          $object->id . '</span>',
+      '#prefix' => $hidden_pid,
       '#attributes' => array(
         'class' => array('links', 'inline'),
       ),
@@ -57,6 +59,7 @@ function template_preprocess_islandora_newspaper(array &$variables) {
   );
   $tabs = &$output['tabs'];
   $first_pane_done = FALSE;
+  $load_all = (variable_get('islandora_newspaper_use_ajax_loader', 0) < 1);
   ksort($grouped_issues);
   foreach ($grouped_issues as $year => $months) {
     $tabs[$year] = array(
@@ -75,7 +78,7 @@ function template_preprocess_islandora_newspaper(array &$variables) {
           'class' => array('collapsible', 'month'),
         ),
       );
-      if (!$first_pane_done) {
+      if (!$first_pane_done || $load_all) {
         foreach ($days as $day => $issues) {
           foreach ($issues as $issue) {
             $tabs[$year][$month][$day][] = array(
