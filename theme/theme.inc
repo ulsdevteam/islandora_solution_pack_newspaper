@@ -105,6 +105,10 @@ function template_preprocess_islandora_newspaper(array &$variables) {
     ksort($tabs[$year]);
   }
 
+  $variables['search_box'] = theme('islandora_newspaper_search_box', array(
+      'parent_newspaper_pid' => str_replace(":", "\:", $object->id),
+      'site_domain' => ($_SERVER['HTTPS'] ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'])
+  );
   $variables['islandora_content_render_array'] = $output;
   $variables['parent_collections'] = islandora_get_parents_from_rels_ext($object);
   $variables['metadata'] = islandora_retrieve_metadata_markup($object);

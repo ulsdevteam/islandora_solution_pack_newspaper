@@ -178,6 +178,13 @@ function islandora_newspaper_theme($existing, $type, $theme, $path) {
       'template' => 'theme/islandora-newspaper-single-year-issues',
       'variables' => array('tabs' => NULL),
     ),
+    'islandora_newspaper_search_box' => array(
+      'template' => 'theme/islandora-newspaper-search-box',
+      'variables' => array(
+        'parent_newspaper_pid' => '',
+        'site_domain' => '',
+      ),
+    ),
   );
 }
 
