@@ -55,7 +55,16 @@ function islandora_newspaper_get_current_sequence($object) {
  */
 function islandora_newspaper_get_newspaper($object) {
   $rels = $object->relationships->get(FEDORA_RELS_EXT_URI, 'isMemberOf');
-  $rel = reset($rels);
+  if (count($rels) > 1) {
+    $pid_a = $rels[0]['object']['value'];
+    $pid_b = $rels[1]['object']['value'];
+    if ($pid_a == 'pitt:02266139' || $pid_b == 'pitt:02266139') {
+      return 'pitt:07198568';
+    }
+  }
+  else {
+    $rel = reset($rels);
+  }
   if ($rel) {
     return $rel['object']['value'];
   }
@@ -126,8 +135,10 @@ WHERE {
   !optionals
   !filters
 }
-ORDER BY ?sequence
+ORDER BY ?issued
 EOQ;
+
+// previously ended with -- ORDER BY ?sequence
 
   // XXX: Can't really use the fully featured query_filter and query_statements
   // hook as it will return some things we don't want. Perhaps change the return

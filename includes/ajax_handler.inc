@@ -5,6 +5,7 @@
  * AJAX handler functions for the Islandora Newspaper Solution pack module.
  */
 
+
 /**
  * Helper to display the issues for a given year for a newspaper.
  *
@@ -43,8 +44,10 @@ function islandora_newspaper_ajax_get_year($islandora_object, $year) {
         $tabs[$year][$month][$day][] = array(
           '#id' => 'y_' . $year . '_' . $month . '_' . $day,
           '#theme' => 'link',
-          '#prefix' => '<div>',
-          '#suffix' => '</div>',
+          '#prefix' => '<div class="islandora-newspaper-content-thumb-div">',
+          '#suffix' => '<br><a href="/islandora/object/' . $issue['pid'] . '">' .
+              '<img class="newspaper-tiny-thumb" src="/islandora/object/' .
+              $issue['pid'] . '/datastream/TN/view" width="48"></a></div>',
           '#text' => t("@month @day, @year", array(
               '@year' => $year,
               '@month' => $month_name,

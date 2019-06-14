@@ -8,6 +8,7 @@
  * - $islandora_content: A rendered vertical tabbed newspapper issue browser.
  * - $parent_collections: An array containing parent collection IslandoraFedoraObject(s).
  * - $description: Rendered metadata descripton for the object.
+ * - $search_box: newspaper-specific search box html and javascript block.
  * - $metadata: Rendered metadata display for the binary object.
  *
  * @see template_preprocess_islandora_newspaper()
@@ -15,6 +16,11 @@
 ?>
 <div class="islandora-newspaper-object islandora">
   <div class="islandora-newspaper-content-wrapper clearfix">
+<?php if ($search_box): ?>
+  <div id="newspaper_search_box">
+    <?php print $search_box; ?>
+  </div>
+<?php endif; ?>
     <?php if ($islandora_content): ?>
       <div class="islandora-newspaper-content">
         <?php print $islandora_content; ?>

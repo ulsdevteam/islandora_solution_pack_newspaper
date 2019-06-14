@@ -178,6 +178,13 @@ function islandora_newspaper_theme($existing, $type, $theme, $path) {
       'template' => 'theme/islandora-newspaper-single-year-issues',
       'variables' => array('tabs' => NULL),
     ),
+    'islandora_newspaper_search_box' => array(
+      'template' => 'theme/islandora-newspaper-search-box',
+      'variables' => array(
+        'parent_newspaper_pid' => '',
+        'site_domain' => '',
+      ),
+    ),
   );
 }
 
@@ -681,7 +688,6 @@ function islandora_newspaper_islandora_paged_content_content_model_registry() {
 }
 
 /**
-
  * If this is on the Newspaper object page, add the javascript for ajax loading.
  */
 function islandora_newspaper_preprocess_page(&$vars) {
@@ -694,6 +700,7 @@ function islandora_newspaper_preprocess_page(&$vars) {
     else {
     }
   }
+}
  }
  * Implements hook_islandora_solution_pack_child_relationships().
  */
