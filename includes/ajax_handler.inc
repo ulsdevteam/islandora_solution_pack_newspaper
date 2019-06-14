@@ -5,6 +5,15 @@
  * AJAX handler functions for the Islandora Newspaper Solution pack module.
  */
 
+
+/**
+ * Helper to display the issues for a given year for a newspaper.
+ *
+ * @param abstractObject $islandora_object
+ *   The fedora newspaper model object.
+ * @param string $year
+ *   The year for which to render the markup.
+ */
 function islandora_newspaper_ajax_get_year($islandora_object, $year) {
   module_load_include('inc', 'islandora_newspaper', 'includes/utilities');
   $issues = islandora_newspaper_get_issues($islandora_object);
@@ -27,7 +36,7 @@ function islandora_newspaper_ajax_get_year($islandora_object, $year) {
       '#title' => $month_name,
       '#type' => 'fieldset',
       '#attributes' => array(
-          'class' => array('collapsible', 'month'),
+        'class' => array('collapsible', 'month'),
       ),
     );
     foreach ($days as $day => $issues) {

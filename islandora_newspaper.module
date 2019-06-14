@@ -116,7 +116,7 @@ function islandora_newspaper_menu() {
       'access callback' => 'islandora_newspaper_issue_page_access',
       'access arguments' => array(2),
     ),
-    // PHP helper function to return page image size for METS editor via AJAX call.
+    // AJAX handler to render a year of issues per newspaper.
     'islandora/object/%islandora_object/newspaper/get_year/%' => array(
       'page callback' => 'islandora_newspaper_ajax_get_year',
       'page arguments' => array(2, 5),
@@ -700,4 +700,21 @@ function islandora_newspaper_preprocess_page(&$vars) {
     else {
     }
   }
+}
+ }
+ * Implements hook_islandora_solution_pack_child_relationships().
+ */
+function islandora_newspaper_islandora_solution_pack_child_relationships($cmodels) {
+  $relationships = array('predicate' => array(), 'prefix' => array());
+
+  if ($cmodels === 'all' || in_array('islandora:newspaperCModel', $cmodels)) {
+    $relationships['predicate'][] = '<fedora-rels-ext:isMemberOf>';
+  }
+
+  if ($cmodels === 'all' || in_array('islandora:newspaperIssueCModel', $cmodels)) {
+    $relationships['prefix'][] = 'PREFIX islandora: <http://islandora.ca/ontology/relsext#>';
+    $relationships['predicate'][] = '<islandora:isPageOf>';
+  }
+
+  return $relationships;
 }
